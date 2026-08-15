@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from random import Random
-from typing import Protocol, Sequence
+from typing import Protocol
 
 from resonance_asri.contracts import ExecutionRequest
 
@@ -25,11 +26,7 @@ class ComputeDecision:
         """Simple provider-call proxy used before hardware FLOP telemetry exists."""
 
         # Each specialist adds one critique and one synthesis call.
-        return (
-            self.reasoning_iterations
-            + (2 * len(self.specialists))
-            + int(self.verify)
-        )
+        return self.reasoning_iterations + (2 * len(self.specialists)) + int(self.verify)
 
 
 class ComputePolicy(Protocol):
