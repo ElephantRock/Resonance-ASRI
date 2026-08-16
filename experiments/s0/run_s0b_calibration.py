@@ -74,7 +74,7 @@ def main() -> int:
     write_environment_json(out_dir / "environment.json", environment)
 
     loaded = load_frozen_qwen_reference()
-    provider = QwenLocalProvider.from_reference(loaded, max_new_tokens=256)
+    provider = QwenLocalProvider.from_reference(loaded=loaded, max_new_tokens=256)
 
     import torch  # runner-only; experiments scripts are never imported by CI
 

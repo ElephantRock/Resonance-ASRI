@@ -1,0 +1,317 @@
+{
+  "calibration_set_id": "s0b-calibration-v1",
+  "classes": [
+    "arithmetic",
+    "code_reasoning",
+    "instruction_following",
+    "lookup",
+    "reasoning",
+    "word_problem"
+  ],
+  "evaluators": [
+    "exact",
+    "numeric",
+    "option",
+    "keywords"
+  ],
+  "task_count": 36,
+  "tasks": [
+    {
+      "difficulty": "easy",
+      "evaluator": "numeric",
+      "expected": 43,
+      "prompt": "Compute 17 + 26. Answer with only the number.",
+      "task_class": "arithmetic",
+      "task_id": "arith-01"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "numeric",
+      "expected": 144,
+      "prompt": "Compute 12 x 12. Answer with only the number.",
+      "task_class": "arithmetic",
+      "task_id": "arith-02"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "numeric",
+      "expected": 637,
+      "prompt": "Compute 1024 - 387. Answer with only the number.",
+      "task_class": "arithmetic",
+      "task_id": "arith-03"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "numeric",
+      "expected": 36,
+      "prompt": "Compute 144 / 16 + 27. Answer with only the number.",
+      "task_class": "arithmetic",
+      "task_id": "arith-04"
+    },
+    {
+      "difficulty": "hard",
+      "evaluator": "numeric",
+      "expected": 6348,
+      "prompt": "Compute 138 x 46. Answer with only the number.",
+      "task_class": "arithmetic",
+      "task_id": "arith-05"
+    },
+    {
+      "difficulty": "hard",
+      "evaluator": "numeric",
+      "expected": 3059,
+      "prompt": "Compute 19 x 23 x 7. Answer with only the number.",
+      "task_class": "arithmetic",
+      "task_id": "arith-06"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "numeric",
+      "expected": 80,
+      "prompt": "A train travels 240 km in 3 hours at constant speed. What is its average speed in km/h? Answer with only the number.",
+      "task_class": "word_problem",
+      "task_id": "word-01"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "numeric",
+      "expected": 12,
+      "prompt": "A shop sells apples at $2 each and oranges at $3 each. Maya buys 3 apples and 2 oranges. What is the total cost in dollars? Answer with only the number.",
+      "task_class": "word_problem",
+      "task_id": "word-02"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "numeric",
+      "expected": 66,
+      "prompt": "A jacket costs $80. A 25% discount is applied, then 10% tax is added to the discounted price. What is the final price in dollars? Answer with only the number.",
+      "task_class": "word_problem",
+      "task_id": "word-03"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "numeric",
+      "expected": 12,
+      "prompt": "A tank holds 96 liters. One pipe fills it at 12 liters per minute and a drain empties it at 4 liters per minute. With both open, how many minutes does the tank take to fill? Answer with only the number.",
+      "task_class": "word_problem",
+      "task_id": "word-04"
+    },
+    {
+      "difficulty": "hard",
+      "evaluator": "numeric",
+      "expected": 2,
+      "prompt": "Worker A finishes a job in 6 hours and worker B finishes the same job in 3 hours. Working together at constant rates, how many hours do they need? Answer with only the number.",
+      "task_class": "word_problem",
+      "task_id": "word-05"
+    },
+    {
+      "difficulty": "hard",
+      "evaluator": "numeric",
+      "expected": 102,
+      "prompt": "An arithmetic sequence starts 7, 12, 17, ... with a constant step. What is the 20th term? Answer with only the number.",
+      "task_class": "word_problem",
+      "task_id": "word-06"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "numeric",
+      "expected": 6,
+      "prompt": "What does this Python code print?\n\nx = 0\nfor i in range(4):\n    x += i\nprint(x)\n\nAnswer with only the printed value.",
+      "task_class": "code_reasoning",
+      "task_id": "code-01"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "numeric",
+      "expected": 7,
+      "prompt": "What does this Python code print?\n\ns = 'engines'\nprint(len(s))\n\nAnswer with only the printed value.",
+      "task_class": "code_reasoning",
+      "task_id": "code-02"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "numeric",
+      "expected": 34,
+      "prompt": "What does this Python code print?\n\nd = {x: x * x for x in (2, 3, 5)}\nprint(d[3] + d[5])\n\nAnswer with only the printed value.",
+      "task_class": "code_reasoning",
+      "task_id": "code-03"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "numeric",
+      "expected": 5,
+      "prompt": "What does this Python code print?\n\na = [1, 2, 3]\na.append(4)\na.pop(0)\nprint(len(a) + a[0])\n\nAnswer with only the printed value.",
+      "task_class": "code_reasoning",
+      "task_id": "code-04"
+    },
+    {
+      "difficulty": "hard",
+      "evaluator": "numeric",
+      "expected": 13,
+      "prompt": "What does this Python code print?\n\ndef f(n):\n    return n if n < 2 else f(n - 1) + f(n - 2)\nprint(f(7))\n\nAnswer with only the printed value.",
+      "task_class": "code_reasoning",
+      "task_id": "code-05"
+    },
+    {
+      "difficulty": "hard",
+      "evaluator": "exact",
+      "expected": "onan",
+      "prompt": "What does this Python code print?\n\ns = 'resonance'\nprint(s[3:7])\n\nAnswer with only the printed value.",
+      "task_class": "code_reasoning",
+      "task_id": "code-06"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "exact",
+      "expected": "Canberra",
+      "prompt": "What is the capital city of Australia? Answer with only the city name.",
+      "task_class": "lookup",
+      "task_id": "fact-01"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "exact",
+      "expected": "Au",
+      "prompt": "What is the chemical symbol for gold? Answer with only the symbol.",
+      "task_class": "lookup",
+      "task_id": "fact-02"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "numeric",
+      "expected": 366,
+      "prompt": "How many days does a leap year have? Answer with only the number.",
+      "task_class": "lookup",
+      "task_id": "fact-03"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "exact",
+      "expected": "Jupiter",
+      "prompt": "Which is the largest planet in the solar system? Answer with only the planet name.",
+      "task_class": "lookup",
+      "task_id": "fact-04"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "numeric",
+      "expected": 1989,
+      "prompt": "In which year did the Berlin Wall fall? Answer with only the year.",
+      "task_class": "lookup",
+      "task_id": "fact-05"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "numeric",
+      "expected": 206,
+      "prompt": "How many bones are in the adult human body? Answer with only the number.",
+      "task_class": "lookup",
+      "task_id": "fact-06"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "exact",
+      "expected": "Alice",
+      "prompt": "Alice is taller than Bob. Carol is shorter than Bob. Who is the tallest of the three? Answer with only the name.",
+      "task_class": "reasoning",
+      "task_id": "logic-01"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "exact",
+      "expected": "Friday",
+      "prompt": "If today is Wednesday, what day of the week will it be exactly 100 days from now? Answer with only the day name.",
+      "task_class": "reasoning",
+      "task_id": "logic-02"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "option",
+      "expected": [
+        "no"
+      ],
+      "prompt": "All Blorks are Zibs. Some Zibs are Quins. Can we conclude that some Blorks are definitely Quins? Answer YES or NO only.",
+      "task_class": "reasoning",
+      "task_id": "logic-03"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "exact",
+      "expected": "1/6",
+      "prompt": "When two fair six-sided dice are rolled, what is the probability that the two numbers sum to 7? Answer with only the fraction, like 1/2.",
+      "task_class": "reasoning",
+      "task_id": "logic-04"
+    },
+    {
+      "difficulty": "hard",
+      "evaluator": "numeric",
+      "expected": 12,
+      "prompt": "A cube is painted red on all sides and then cut into 27 equal small cubes. How many small cubes have exactly two red faces? Answer with only the number.",
+      "task_class": "reasoning",
+      "task_id": "logic-05"
+    },
+    {
+      "difficulty": "hard",
+      "evaluator": "exact",
+      "expected": "D",
+      "prompt": "Five people sit in a row. Person A is at the far left. Person B is directly right of A. Person C is at the far right. Person D sits between B and person E, with D closer to B. Who is in the middle seat of the five? Answer with only the name.",
+      "task_class": "reasoning",
+      "task_id": "logic-06"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "exact",
+      "expected": "BANANA",
+      "prompt": "Reply with exactly the word BANANA and nothing else.",
+      "task_class": "instruction_following",
+      "task_id": "instr-01"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "exact",
+      "expected": "7",
+      "prompt": "Answer with a single digit only: what is 3 + 4?",
+      "task_class": "instruction_following",
+      "task_id": "instr-02"
+    },
+    {
+      "difficulty": "easy",
+      "evaluator": "option",
+      "expected": [
+        "no"
+      ],
+      "prompt": "Answer YES or NO only: is 51 a prime number?",
+      "task_class": "instruction_following",
+      "task_id": "instr-03"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "numeric",
+      "expected": 9,
+      "prompt": "How many letters are in the word 'resonance'? Answer with only the number.",
+      "task_class": "instruction_following",
+      "task_id": "instr-04"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "exact",
+      "expected": "CA",
+      "prompt": "What is the two-letter postal abbreviation for the US state of California? Answer with only the abbreviation.",
+      "task_class": "instruction_following",
+      "task_id": "instr-05"
+    },
+    {
+      "difficulty": "medium",
+      "evaluator": "keywords",
+      "expected": [
+        "red",
+        "blue",
+        "yellow"
+      ],
+      "prompt": "List exactly the three primary colors of pigment, separated by commas.",
+      "task_class": "instruction_following",
+      "task_id": "instr-06"
+    }
+  ],
+  "tasks_sha256": "7bfd0112d60bdbf86c36d323addf441c86adfa47df18505c8c2e1df8683c2ab2"
+}
