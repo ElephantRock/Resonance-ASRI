@@ -24,6 +24,7 @@ from uuid import uuid4
 from resonance_asri.reference.config import dtype_label
 
 EXPERIMENT_ID = "phase0b-envelope-v1"
+PHASE0B2_EXPERIMENT_ID = "phase0b2-generation-v1"
 PROMPT_TOKEN_TARGETS = (512, 1024, 2048, 4096, 8192)
 GENERATION_TOKEN_TARGETS = (32, 64, 128, 256, 512)
 MEASURED_REPETITIONS = 3
@@ -220,11 +221,13 @@ def base_record(
     reference: dict[str, Any],
     git: dict[str, Any],
     warmup: bool = False,
+    experiment_id: str = EXPERIMENT_ID,
+    min_new_tokens: int | None = None,
 ) -> dict[str, Any]:
     """Full Phase-0B record skeleton with every field present from the start."""
 
     return {
-        "experiment_id": EXPERIMENT_ID,
+        "experiment_id": experiment_id,
         "run_id": str(uuid4()),
         "repetition": repetition,
         "warmup": warmup,
@@ -237,6 +240,7 @@ def base_record(
         "requested_prompt_tokens": planned.target_prompt_tokens,
         "actual_prompt_tokens": planned.actual_prompt_tokens,
         "max_new_tokens": max_new_tokens,
+        "min_new_tokens": min_new_tokens,
         "actual_generated_tokens": None,
         "do_sample": False,
         "use_cache": True,
@@ -276,6 +280,7 @@ def measure_repetition(
     eos_token_id: int,
     pad_token_id: int,
     record: dict[str, Any],
+    min_new_tokens: int | None = None,
 ) -> dict[str, Any]:
     """Run one synchronized generation and fill the measurement record.
 
@@ -284,6 +289,10 @@ def measure_repetition(
     peaks reflect this repetition only. Host RSS/system RAM and device-wide
     VRAM are sampled around the call. TTFT is intentionally left null: it is
     not measured here and must not be reported.
+
+    ``min_new_tokens`` exists only for the Phase-0B2 generation-growth probe:
+    it forces outputs to reach a target length so generation-side KV-cache
+    cost can be measured. It is a benchmark control, never an S0 policy knob.
     """
 
     import time
@@ -306,6 +315,16 @@ def measure_repetition(
 
     torch.cuda.reset_peak_memory_stats(device)
 
+    generation_kwargs: dict[str, Any] = {
+        "max_new_tokens": max_new_tokens,
+        "do_sample": False,
+        "use_cache": True,
+        "eos_token_id": eos_token_id,
+        "pad_token_id": pad_token_id,
+    }
+    if min_new_tokens is not None:
+        generation_kwargs["min_new_tokens"] = min_new_tokens
+
     try:
         encoded = tokenizer(rendered, return_tensors="pt")
         encoded = {key: value.to(device) for key, value in encoded.items()}
@@ -314,11 +333,7 @@ def measure_repetition(
         with torch.inference_mode():
             generated = model.generate(
                 **encoded,
-                max_new_tokens=max_new_tokens,
-                do_sample=False,
-                use_cache=True,
-                eos_token_id=eos_token_id,
-                pad_token_id=pad_token_id,
+                **generation_kwargs,
             )
         torch.cuda.synchronize(device)
         elapsed = time.perf_counter() - started

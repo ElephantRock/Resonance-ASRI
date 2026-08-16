@@ -308,8 +308,36 @@ def test_base_record_contains_every_required_field_and_serializes() -> None:
     assert not missing, f"missing fields: {missing}"
     assert record["do_sample"] is False
     assert record["ttft"] is None
+    assert record["min_new_tokens"] is None
     encoded = json.dumps(record, sort_keys=True)
     assert "phase0b-envelope-v1" in encoded
+
+
+def test_phase0b2_base_record_carries_forced_generation_control() -> None:
+    planned = envelope.PlannedPrompt(
+        rendered="r", document="d", target_prompt_tokens=512, actual_prompt_tokens=512
+    )
+    record = envelope.base_record(
+        repetition=1,
+        planned=planned,
+        max_new_tokens=256,
+        reference={
+            "model_id": "Qwen/Qwen3-4B",
+            "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+            "resolved_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+            "dtype_name": "bfloat16",
+            "device": "cuda:0",
+            "eos_token_id": 151645,
+            "pad_token_id": 151643,
+        },
+        git={"branch": "research/asri-s0", "commit": "4384148"},
+        experiment_id=envelope.PHASE0B2_EXPERIMENT_ID,
+        min_new_tokens=256,
+    )
+
+    assert record["experiment_id"] == "phase0b2-generation-v1"
+    assert record["min_new_tokens"] == 256
+    assert json.dumps(record, sort_keys=True)
 
 
 def test_runs_jsonl_and_summary_csv_round_trip(tmp_path: Path) -> None:

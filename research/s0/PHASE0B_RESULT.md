@@ -74,10 +74,13 @@ CUDA OOM instead.
 
 ## Envelopes
 
-**A. Absolute tested maximum (resident):** prompt **2048** × max_new **512** — all 3
-repetitions successful, mean latency 3.033 s, peak allocated 9.16 GiB, peak reserved
-9.31 GiB. (The largest mechanically-successful condition, (4096, 32), is excluded as
-spill-regime.)
+**A. Absolute resident maximum tested:** prompt = 2048 tokens with a max_new_tokens
+**allowance** of 512 — all 3 repetitions successful, mean latency 3.033 s, peak allocated
+9.16 GiB, peak reserved 9.31 GiB. Because outputs stopped at EOS after ~32 tokens, this is
+**not** a demonstrated generation maximum of 512 tokens; the generation side was exercised
+only to ~32 actual tokens. Generation-length memory growth is unmeasured in Phase-0B and is
+probed separately in Phase-0B2. (The largest mechanically-successful condition, (4096, 32),
+is excluded as spill-regime.)
 
 **B. Recommended routine S0 envelope:** prompt ceiling **1024 tokens**, generation
 ceiling **256 tokens**. Decision rule (recorded in `summary.json` → `envelopes`):
