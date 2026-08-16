@@ -184,6 +184,34 @@ def cuda_recovery() -> None:
         torch.cuda.empty_cache()
 
 
+def classify_residency(
+    records: list[dict[str, Any]],
+    *,
+    total_vram_bytes: int,
+    desktop_reserve_bytes: int = DESKTOP_VRAM_RESERVE_BYTES,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Split records into (resident, spill_regime) by peak allocated memory.
+
+    On Windows WDDM, the CUDA driver can satisfy allocations beyond physical
+    VRAM by paging into shared system memory instead of raising OOM. Such runs
+    report peak_allocated_bytes above what can be resident given the desktop
+    reserve and their latencies reflect PCIe paging, not GPU inference. They
+    are mechanically successful but invalid as envelope evidence, so they are
+    excluded from aggregation and documented separately.
+    """
+
+    resident_budget = total_vram_bytes - desktop_reserve_bytes
+    resident: list[dict[str, Any]] = []
+    spill_regime: list[dict[str, Any]] = []
+    for record in records:
+        peak = record.get("peak_allocated_bytes")
+        if peak is not None and peak > resident_budget:
+            spill_regime.append(record)
+        else:
+            resident.append(record)
+    return resident, spill_regime
+
+
 def base_record(
     *,
     repetition: int,

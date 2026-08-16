@@ -194,6 +194,29 @@ def test_aggregate_runs_counts_failures_and_all_oom_conditions() -> None:
     assert all_oom["max_peak_allocated_bytes"] is None
 
 
+def test_classify_residency_separates_spill_regime_runs() -> None:
+    total_vram = 12 * GIB
+    resident_run = make_record(prompt_tokens=2048, max_new_tokens=512, repetition=1,
+                               peak_alloc=9.8 * GIB)
+    spill_run = make_record(prompt_tokens=4096, max_new_tokens=32, repetition=1,
+                            peak_alloc=13.0 * GIB)
+    no_peak_run = make_record(prompt_tokens=512, max_new_tokens=32, repetition=1,
+                              peak_alloc=None)
+
+    resident, spill_regime = envelope.classify_residency(
+        [resident_run, spill_run, no_peak_run], total_vram_bytes=total_vram
+    )
+
+    assert resident_run in resident
+    assert no_peak_run in resident
+    assert spill_run in spill_regime
+    # budget is total VRAM minus the 2 GiB desktop reserve
+    assert envelope.classify_residency(
+        [make_record(prompt_tokens=1, max_new_tokens=1, repetition=1, peak_alloc=10.1 * GIB)],
+        total_vram_bytes=total_vram,
+    )[1]
+
+
 def test_oom_detection_helpers() -> None:
     record = make_record(
         prompt_tokens=512,
