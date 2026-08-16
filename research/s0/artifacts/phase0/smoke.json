@@ -1,0 +1,137 @@
+{
+  "checks": [
+    {
+      "check_id": "model_id_matches_frozen",
+      "detail": "observed='Qwen/Qwen3-4B' expected='Qwen/Qwen3-4B'",
+      "name": "model_id is Qwen/Qwen3-4B",
+      "passed": true
+    },
+    {
+      "check_id": "requested_revision_is_commit",
+      "detail": "requested_revision='1cfa9a7208912126459214e8b04321603b3df60c'",
+      "name": "requested revision is an exact commit SHA",
+      "passed": true
+    },
+    {
+      "check_id": "resolved_revision_matches_requested",
+      "detail": "resolved='1cfa9a7208912126459214e8b04321603b3df60c' requested='1cfa9a7208912126459214e8b04321603b3df60c'",
+      "name": "resolved snapshot revision is exact",
+      "passed": true
+    },
+    {
+      "check_id": "tokenizer_native_no_remote_code",
+      "detail": "class=Qwen2Tokenizer module=transformers.models.qwen2.tokenization_qwen2 trust_remote_code=False",
+      "name": "tokenizer is a native transformers class (trust_remote_code=False)",
+      "passed": true
+    },
+    {
+      "check_id": "model_native_no_remote_code",
+      "detail": "class=Qwen3ForCausalLM module=transformers.models.qwen3.modeling_qwen3 trust_remote_code=False",
+      "name": "model is a native transformers class (trust_remote_code=False)",
+      "passed": true
+    },
+    {
+      "check_id": "enable_thinking_disabled",
+      "detail": "enable_thinking=False",
+      "name": "enable_thinking=False",
+      "passed": true
+    },
+    {
+      "check_id": "chat_template_non_thinking",
+      "detail": "non_thinking_marker=present tail='|im_start|>assistant\\n<think>\\n\\n</think>\\n\\n'",
+      "name": "rendered chat template is Qwen non-thinking mode",
+      "passed": true
+    },
+    {
+      "check_id": "response_has_no_think_tags",
+      "detail": "response='READY'",
+      "name": "generated response contains no think tags",
+      "passed": true
+    },
+    {
+      "check_id": "response_non_empty",
+      "detail": "response='READY'",
+      "name": "generation is non-empty",
+      "passed": true
+    },
+    {
+      "check_id": "cuda_available",
+      "detail": "cuda_available=True",
+      "name": "CUDA is available",
+      "passed": true
+    },
+    {
+      "check_id": "model_on_reference_device",
+      "detail": "parameter_device='cuda:0' all_parameters_on_device=True",
+      "name": "model resides on cuda:0",
+      "passed": true
+    },
+    {
+      "check_id": "dtype_is_bfloat16",
+      "detail": "dtype='torch.bfloat16' expected='torch.bfloat16'",
+      "name": "model dtype is BF16",
+      "passed": true
+    }
+  ],
+  "historical_reference": {
+    "generated_tokens": 2,
+    "latency_seconds": 1.2402,
+    "note": "informational comparison only; identity invariants are the PASS criteria",
+    "peak_allocated_bytes": 8115154432,
+    "peak_reserved_bytes": 8128561152,
+    "prompt_tokens": 18,
+    "response": "READY",
+    "source": "ASRI-P0 v1 local smoke (C:/AI/ASRI, 2026-08-15)"
+  },
+  "identity": {
+    "model_class": "Qwen3ForCausalLM",
+    "model_module": "transformers.models.qwen3.modeling_qwen3",
+    "resolved_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "snapshot_path": "C:\\huggingface_cache\\hub\\models--Qwen--Qwen3-4B\\snapshots\\1cfa9a7208912126459214e8b04321603b3df60c",
+    "tokenizer_class": "Qwen2Tokenizer",
+    "tokenizer_module": "transformers.models.qwen2.tokenization_qwen2"
+  },
+  "phase": "phase0",
+  "reference": {
+    "device": "cuda:0",
+    "dtype_label": "torch.bfloat16",
+    "dtype_name": "bfloat16",
+    "enable_thinking": false,
+    "model_id": "Qwen/Qwen3-4B",
+    "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "trust_remote_code": false
+  },
+  "smoke": {
+    "do_sample": false,
+    "input_tokens": 18,
+    "latency_seconds": 1.4023445000057109,
+    "max_new_tokens": 16,
+    "output_tokens": 2,
+    "peak_allocated_bytes": 8115154432,
+    "peak_reserved_bytes": 8128561152,
+    "prompt": "Return exactly the word READY.",
+    "rendered_prompt": "<|im_start|>user\nReturn exactly the word READY.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+    "response": "READY"
+  },
+  "smoke_vs_historical": [
+    {
+      "comparison": "response_text",
+      "historical": "READY",
+      "matches": true,
+      "observed": "READY"
+    },
+    {
+      "comparison": "prompt_tokens",
+      "historical": 18,
+      "matches": true,
+      "observed": 18
+    },
+    {
+      "comparison": "generated_tokens",
+      "historical": 2,
+      "matches": true,
+      "observed": 2
+    }
+  ],
+  "verdict": "PASS"
+}
