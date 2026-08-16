@@ -24,19 +24,20 @@ Deterministic evaluators only (exact / numeric / option / keywords). Cost accoun
 C_tokens = input+output; C_calls = provider calls; C_latency = summed seconds. Residency
 guard checked after every task; never triggered (all runs resident).
 
-## Four populations (per task, ΔQ = Q_deep − Q_shallow)
+## Four populations (mutually exclusive partition over shallow/deep solved-ness)
 
-| Population | Count | Members |
-|---|---|---|
-| shallow already solves (Q_shallow = 1) | 25 | includes 2 tasks deep **damaged** (below) |
-| compute helps (ΔQ > 0) | 4 | arith-04, code-02, code-03, word-06 |
-| compute does nothing (ΔQ = 0, unsolved) | 7 | arith-06, code-01/04/05/06, logic-02, logic-04 |
-| compute hurts (Q_shallow < 1, ΔQ < 0) | 0 | — |
+| Population | Definition | Count | Members |
+|---|---|---|---|
+| stable shallow success | shallow ✓, deep ✓ | 23 | — |
+| compute helps | shallow ✗, deep ✓ | 4 | arith-04, code-02, code-03, word-06 |
+| compute hurts | shallow ✓, deep ✗ | 2 | instr-03, logic-06 |
+| compute does nothing | shallow ✗, deep ✗ | 7 | arith-06, code-01/04/05/06, logic-02, logic-04 |
 
-**Deep damaged previously-correct answers on 2 of 25 shallow-solved tasks:**
-`instr-03` (is 51 prime → YES/NO drifted) and `logic-06` (middle-seat answer flipped
-during refinement). These sit inside "shallow already solves" but are the concrete
-overthinking cost.
+23 + 4 + 2 + 7 = 36. Probabilities: **P(help) = 4/36 = 11.1%**, **P(harm) = 2/36 = 5.6%**,
+**P(no value) = 30/36 = 83.3%** (23 already solved + 7 unsolved). All three causal
+possibilities are demonstrated on this substrate: more compute can help, can be wasted,
+and can actively break a correct answer. The two harm cases: `instr-03` (YES/NO answer
+drifted during refinement) and `logic-06` (middle-seat answer flipped during refinement).
 
 ## Per-class aggregates
 
@@ -51,13 +52,16 @@ overthinking cost.
 
 ## Aggregate economics
 
-- Mean quality: 0.694 (shallow) → 0.750 (deep), +0.056 over all 36 tasks.
+- Mean quality: 0.694 (shallow) → 0.750 (deep), **ΔQ = +0.056** over all 36 tasks.
 - Mean C_tokens: 66 → 631 (**9.5×**) · mean C_calls: 1 → 7 · mean C_latency: 0.6 s →
   9.8 s (**15.7×**).
+- **Efficiency of uniform deep compute: ΔQ/ΔC_tokens ≈ 9.8×10⁻⁵ quality units per
+  additional token.** Indiscriminate deliberation is economically terrible: only 4 of 36
+  tasks benefit, at 5.6% risk of breaking a correct answer.
 - Worst case: `logic-04` (two-dice probability) consumed 1,405 tokens and 44.7 s of deep
   compute and still failed — refinement can ramble without correcting.
 - Selective-value signal: class-level (three classes improve, two degrade) and task-level
-  (4 helps, 2 damages). Both levels carry routing information a controller could use.
+  (4 helps, 2 harms). Both levels carry routing information a controller could use.
 
 ## Reading (calibration, not confirmation)
 

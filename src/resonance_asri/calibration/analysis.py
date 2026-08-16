@@ -78,31 +78,84 @@ def paired_deltas(
 
 
 def classify_population(row: dict[str, Any]) -> str:
-    """Assign a task to one of the four compute-value populations."""
+    """Assign a task to one of four mutually exclusive populations.
 
-    if row["q_shallow"] >= 1.0:
-        # Shallow already solves it; extra compute can only waste or damage.
-        return "shallow_already_solves"
-    if row["delta_quality"] > 0:
+    Solved means quality >= 1.0. The partition is over the pair
+    (shallow solved, deep solved), so every task lands in exactly one bucket:
+      stable_shallow_success: shallow solved AND deep stayed solved
+      compute_helps:          shallow failed AND deep solved
+      compute_hurts:          shallow solved AND deep broke it
+      compute_does_nothing:   both failed
+    """
+
+    shallow_solved = row["q_shallow"] >= 1.0
+    deep_solved = row["q_deep"] >= 1.0
+    if shallow_solved and deep_solved:
+        return "stable_shallow_success"
+    if deep_solved:
         return "compute_helps"
-    if row["delta_quality"] < 0:
+    if shallow_solved:
         return "compute_hurts"
     return "compute_does_nothing"
 
 
+POPULATION_ORDER = (
+    "stable_shallow_success",
+    "compute_helps",
+    "compute_hurts",
+    "compute_does_nothing",
+)
+
+
 def summarize_populations(rows: list[dict[str, Any]]) -> dict[str, Any]:
-    populations = {
-        "compute_helps": [],
-        "compute_does_nothing": [],
-        "compute_hurts": [],
-        "shallow_already_solves": [],
-    }
+    populations = {name: [] for name in POPULATION_ORDER}
     for row in rows:
         populations[classify_population(row)].append(row["task_id"])
 
+    total = len(rows)
+    counts = {name: len(members) for name, members in populations.items()}
+    no_value = counts["stable_shallow_success"] + counts["compute_does_nothing"]
     return {
-        "counts": {name: len(members) for name, members in populations.items()},
+        "taxonomy": "mutually-exclusive-v2",
+        "counts": counts,
         "members": populations,
+        "probabilities": {
+            "p_help": counts["compute_helps"] / total if total else None,
+            "p_harm": counts["compute_hurts"] / total if total else None,
+            "p_no_value": no_value / total if total else None,
+        },
+    }
+
+
+def aggregate_economics(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Aggregate quality/cost economics, including quality per extra token."""
+
+    total = len(rows)
+    if not total:
+        return {}
+    mean_q_shallow = fmean(row["q_shallow"] for row in rows)
+    mean_q_deep = fmean(row["q_deep"] for row in rows)
+    mean_tokens_shallow = fmean(row["c_tokens_shallow"] for row in rows)
+    mean_tokens_deep = fmean(row["c_tokens_deep"] for row in rows)
+    mean_latency_shallow = fmean(row["c_latency_shallow_seconds"] for row in rows)
+    mean_latency_deep = fmean(row["c_latency_deep_seconds"] for row in rows)
+    delta_quality = mean_q_deep - mean_q_shallow
+    delta_tokens = mean_tokens_deep - mean_tokens_shallow
+    return {
+        "mean_q_shallow": mean_q_shallow,
+        "mean_q_deep": mean_q_deep,
+        "delta_quality": delta_quality,
+        "mean_c_tokens_shallow": mean_tokens_shallow,
+        "mean_c_tokens_deep": mean_tokens_deep,
+        "token_ratio": mean_tokens_deep / mean_tokens_shallow if mean_tokens_shallow else None,
+        "mean_c_latency_shallow_seconds": mean_latency_shallow,
+        "mean_c_latency_deep_seconds": mean_latency_deep,
+        "latency_ratio": mean_latency_deep / mean_latency_shallow
+        if mean_latency_shallow
+        else None,
+        "quality_per_extra_token_under_uniform_deep": (
+            delta_quality / delta_tokens if delta_tokens else None
+        ),
     }
 
 
@@ -132,7 +185,10 @@ def summarize_by_class(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return summaries
 
 
-def selective_value_exists(summaries: list[dict[str, Any]]) -> dict[str, Any]:
+def selective_value_exists(
+    rows: list[dict[str, Any]],
+    class_summaries: list[dict[str, Any]],
+) -> dict[str, Any]:
     """Does extra computation have selective (class- or task-level) value?
 
     A gradient exists when extra compute helps somewhere (any task, or any
@@ -142,12 +198,14 @@ def selective_value_exists(summaries: list[dict[str, Any]]) -> dict[str, Any]:
     buy. Both facts matter for freezing the adaptive policy.
     """
 
-    helps_any_task = any(row["delta_quality"] > 0 for row in summaries)
-    class_means = [item["mean_delta_quality"] for item in summaries]
+    helps_any_task = any(row["delta_quality"] > 0 for row in rows)
+    harms_any_task = any(row["delta_quality"] < 0 for row in rows)
+    class_means = [item["mean_delta_quality"] for item in class_summaries]
     helps_any_class = any(mean > 0 for mean in class_means)
     flat_or_negative_class = any(mean <= 0 for mean in class_means)
     return {
         "helps_any_task": helps_any_task,
+        "harms_any_task": harms_any_task,
         "helps_any_class": helps_any_class,
         "mixed_class_gradient": helps_any_class and flat_or_negative_class,
         "note": "mixed_class_gradient=True means adaptive allocation has class-level "
