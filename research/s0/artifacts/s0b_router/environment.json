@@ -1,0 +1,44 @@
+{
+  "cpu": {
+    "logical_cores": 12,
+    "max_frequency_mhz": 3901.0,
+    "physical_cores": 6,
+    "processor_identifier": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "python_processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+  },
+  "git": {
+    "branch": "research/asri-s0",
+    "commit": "968052b48dc07fdc1d4ec62b41281a4920cd57fd",
+    "working_tree_dirty": false
+  },
+  "gpu": {
+    "compute_capability": "8.6",
+    "cuda_available": true,
+    "driver_version": "610.47",
+    "name": "NVIDIA GeForce RTX 3080 Ti",
+    "torch_cuda_version": "13.0",
+    "total_vram_bytes": 12884246528
+  },
+  "os": {
+    "machine": "AMD64",
+    "release": "11",
+    "system": "Windows",
+    "version": "10.0.26200"
+  },
+  "packages": {
+    "huggingface-hub": "1.27.0",
+    "psutil": "7.2.2",
+    "torch": "2.13.0+cu130",
+    "transformers": "5.15.0"
+  },
+  "python": {
+    "executable": "C:\\AI\\ASRI\\.venv\\Scripts\\python.exe",
+    "implementation": "CPython",
+    "version": "3.12.10"
+  },
+  "system_ram": {
+    "available_bytes_at_capture": 13184299008,
+    "total_bytes": 34201518080
+  },
+  "timestamp_utc": "2026-08-16T15:29:04+00:00"
+}

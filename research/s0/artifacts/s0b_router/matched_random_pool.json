@@ -1,0 +1,229 @@
+{
+  "distribution": {
+    "iter=1;specialists=;memory=0;verify=0": 30,
+    "iter=2;specialists=;memory=0;verify=0": 6
+  },
+  "pool": [
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 2,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 2,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 2,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 2,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 2,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 2,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    },
+    {
+      "reasoning_iterations": 1,
+      "specialists": [],
+      "use_memory": false,
+      "verify": false
+    }
+  ],
+  "pool_sha256": "d7f270cc8c146fa6fa342e52387ad7f1279ebb02bdbf83a410b1c3196460f1b5",
+  "pool_size": 36,
+  "sampling_rule": "exact allocation-count matching preferred for S0-C: shuffle this pool without replacement; token accounting remains primary",
+  "sampling_seed": 20260816,
+  "source": "adaptive-heuristic-v0 on s0b-calibration-v1 (36 tasks)"
+}
